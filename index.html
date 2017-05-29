@@ -26,10 +26,10 @@
         <div class="ui message">
           <ul class="list">
             <li>
-              Os valores em reais foram convertidos utilizando a cotação do dólar comercial US$ 1 = <strong>R$ {{ dollarValue.toFixed(2) }}</strong>
+              Os valores em reais foram convertidos utilizando a cotação do dólar comercial US$ 1 = <strong>R$ {{ dollarValue.toFixed(2) }}</strong> baseada nos dados do Banco Central
             </li>
             <li>Os valores em reais foram convertidos e já calculados com o IOF de <strong>6.38%</strong></li>
-            <li>Os valores foram convertidos da moeda local para dólar americano</li>
+            <li>Os valores em dólares foram convertidos da moeda local para dólar americano</li>
           </ul>
         </div>
 
@@ -77,11 +77,12 @@
         },
         methods: {
           getUSDValue: function(){
-            url = 'http://api.promasters.net.br/cotacao/v1/valores?moedas=USD&alt=json'
+            url = 'https://api.vitortec.com/currency/quotation/v1.2/?code=USD'
             this.$http.get(url).then(this.onGetUSDValueSuccess, this.onGetUSDValueError);
           },
           onGetUSDValueSuccess: function(response){
-            this.dollarValue = response.body.valores.USD.valor;
+
+            this.dollarValue = parseFloat(response.body.data.currency[0].buying);
           },
           onGetUSDValueError: function(error){
 
